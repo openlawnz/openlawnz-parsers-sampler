@@ -1,6 +1,9 @@
-## openlawnz-parser-tester
+## openlawnz-parser-tester    
+
 
 #### Steps to run:
+
+
 
 **1. Clone the repo into your local system**
     git clone https://github.com/openlawnz/openlawnz-parsers-sampler.git  
