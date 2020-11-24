@@ -1,0 +1,3 @@
+[submodule "openlawnz-parsers"]
+	path = openlawnz-parsers
+	url = https://github.com/openlawnz/openlawnz-parsers
