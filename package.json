@@ -1,0 +1,51 @@
+{
+  "name": "openlawnz-parser-tester",
+  "version": "1.0.0",
+  "description": "Node based cli application to test parsers.",
+  "main": "main.js",
+  "scripts": {
+    "start": "node build/src/main.js",
+    "clean": "rimraf coverage build tmp caseTexts",
+    "build": "tsc -p tsconfig.release.json",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "lint": "eslint . --ext .ts, .tsx",
+    "all": "npm run clean && npm run build && npm run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openlawnz/openlawnz-parsers-sampler.git"
+  },
+  "author": "Manish Gupta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/openlawnz/openlawnz-parsers-sampler/issues"
+  },
+  "homepage": "https://github.com/openlawnz/openlawnz-parsers-sampler#readme",
+  "devDependencies": {
+    "@types/jest": "^26.0.15",
+    "@types/node": "^14.14.9",
+    "@typescript-eslint/eslint-plugin": "^4.8.1",
+    "@typescript-eslint/parser": "^4.8.1",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-jest": "^24.1.3",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.0",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.4.4",
+    "tsutils": "^3.17.1",
+    "typescript": "^4.1.2"
+  },
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "clear": "^0.1.0",
+    "csv-writer": "^1.6.0",
+    "dotenv": "^8.2.0",
+    "figlet": "^1.5.0",
+    "fuse": "^0.4.0",
+    "inquirer": "^7.3.3",
+    "pg": "^8.5.1",
+    "tslib": "^2.0.3"
+  }
+}
