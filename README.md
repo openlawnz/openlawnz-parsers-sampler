@@ -5,25 +5,25 @@
 
 
 
-**1. Clone the repo into your local system**
+**1. Clone the repo into your local system**  
     git clone https://github.com/openlawnz/openlawnz-parsers-sampler.git  
 
 
-**2. Change into the project directory**
+**2. Change into the project directory**  
     cd openlawnz-parsers-sampler   
 
 
-**3. Initialize the openlawnz-parsers submodule**
+**3. Initialize the openlawnz-parsers submodule**  
     git submodule init  
     git submodule update  
 
 
-**4. Rename the .env.dev to .env and update credentials**
+**4. Rename the .env.dev to .env and update credentials**  
 
-**5. Install dependencies**
+**5. Install dependencies**  
     npm install 
 
-**6. Build and run the project**
+**6. Build and run the project**  
     npm run all  
  
 
