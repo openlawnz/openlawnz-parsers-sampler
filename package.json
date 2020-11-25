@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "node build/src/main.js",
-    "clean": "rimraf coverage build tmp caseTexts",
+    "clean": "rimraf coverage build tmp",
     "build": "tsc -p tsconfig.release.json",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
@@ -46,6 +46,7 @@
     "fuse": "^0.4.0",
     "inquirer": "^7.3.3",
     "pg": "^8.5.1",
-    "tslib": "^2.0.3"
+    "tslib": "^2.0.3",
+    "uuid": "^8.3.1"
   }
 }

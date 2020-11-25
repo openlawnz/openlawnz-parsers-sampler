@@ -18,6 +18,7 @@ const { Client } = require('pg')
 const chalk = require('chalk')
 const clear = require('clear')
 const figlet = require('figlet')
+const {v4: uuidv4} = require('uuid')
 
 // environment variables
 require('dotenv').config()
@@ -50,7 +51,7 @@ let paint = () =>{
     const inputs =  await inquirer.ask()    
     
     let n_cases = inputs.n_cases
-    let parser  = inputs.parser 
+    let parser  = inputs.parser.toLowerCase() 
 
     if ( parseInt(n_cases, 10) == n_cases && parseInt(n_cases) <= 500){
         console.log(`Input correct - Fetching cases for parser - ${parser}`)
@@ -63,6 +64,7 @@ let paint = () =>{
     clear()
     paint()
 
+    console.log(uuidv4())
     console.log("Fetching case data from database...................")
 
     if(env === "DEVELOPMENT"){        
@@ -103,9 +105,28 @@ let paint = () =>{
     if(res && res.rows.length > 0){        
         for (let row of res.rows){
             let case_id = row.id
-            let case_text = row.case_text
-            fs.writeFileSync(`${caseTextsDir}/${case_id}.txt`, case_text)            
-            caseFiles.push(`${case_id}.txt`)            
+            // let case_text = row.case_text
+            let caseData = {
+                "id" : row.id,
+                "case_name" : row.case_name,
+                "case_date": row.case_date, 
+                "is_valid": row.is_valid, 
+                "pdf_id" : row.pdf_id,
+                "court_id": row.court_id, 
+                "lawreport_id": row.lawreport_id, 
+                "location" : row.location,
+                "conversion_engine": row.conversion_engine,
+                "court_filing_number": row.court_filing_number,
+                "last_modified": row.last_modified,
+                "parsers_version": row.parsers_version,
+                "case_text": row.case_text
+            }
+
+            const data = JSON.stringify(caseData)
+            fs.writeFileSync(`${caseTextsDir}/${case_id}.json`, data)            
+            // fs.writeFileSync(`${caseTextsDir}/${case_id}.txt`, case_text)            
+            // caseFiles.push(`${case_id}.txt`)            
+            caseFiles.push(`${case_id}.json`)            
             if(env === "DEVELOPMENT"){
                 console.log(`File written ${case_id}.txt successfully.`)
             }
@@ -127,12 +148,8 @@ let paint = () =>{
         path:`${csvOutDir}/out.csv`, 
         header:[
             {id: 'caseid', title:'Case ID'}, 
-            {id: 'initiation_party_type', title:'Initiation Party Type'}, 
-            {id: 'initiation_names', title:'Initiation Names'}, 
-            {id: 'initiation_appearance', title:'Initiation Appearance'}, 
-            {id: 'response_party_type', title:'Response Party Type'}, 
-            {id: 'response_names', title:'Response Names'}, 
-            {id: 'response_appearance', title:'Response Appearance'}
+            {id: 'result_object', title:'Result object'}, 
+            // {id: 'case_object', title:'Case object'}
         ]
     })  
     
@@ -145,57 +162,54 @@ let paint = () =>{
         }
 
         // Reading the case texts from local directory ${caseTextsDir}
-        const caseText = fs.readFileSync(`${caseTextsDir}/${caseFiles[i]}`).toString()                
+        const caseTextData = fs.readFileSync(`${caseTextsDir}/${caseFiles[i]}`).toString()                
+        const caseText = JSON.parse(caseTextData).case_text
         let result; 
         
         switch(parser){
-            case 'Representation':                
+            case 'representation':                
                 result = parseRepresentation(caseText)
-                const { initiation, response } = result        
+                // const { initiation, response } = result        
                 csvData.push({
                     caseid: caseFiles[i],
-                    initiation_party_type: initiation.party_type,
-                    initiation_names: initiation.names, 
-                    initiation_appearance: initiation.appearance,
-                    response_party_type: response.party_type, 
-                    response_names: response.names, 
-                    response_appearance: response.appearance
+                    result_object: JSON.stringify(result), 
+                    // case_object: caseText
                 })                
                 break
             
-            case 'Legislation':
+            case 'legislation':
                 console.log("Implementation pending")
                 break
             
-            case 'Case Citations':
+            case 'case citations':
                 console.log("Implementation pending")
                 break       
             
-            case 'Category':                
+            case 'category':                
                 console.log("Implementation pending")
                 break       
                 
-            case 'Court':                
+            case 'court':                
                 console.log("Implementation pending")
                 break
             
-            case 'CourtFiling':   
+            case 'courtfiling':   
                 console.log("Implementation pending")
                 // result = parseCourtFilingNumber(caseText)            
                 // console.log(result)
                 break
 
-            case 'Judges':                
+            case 'judges':                
                 console.log("Implementation pending")
                 // result = parseJudges({ judgeTitles, fileKey: caseFiles[i], caseText: caseText });
                 // console.log(result)
                 break
         
-            case 'Law Report':
+            case 'law report':
                 console.log("Implementation pending")                
                 break
 
-            case 'Location':
+            case 'location':
                 console.log("Implementation pending")
                 // result = parseLocation(caseText);
                 // console.log(result)
