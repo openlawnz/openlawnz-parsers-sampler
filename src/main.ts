@@ -105,7 +105,7 @@ let paint = () =>{
     if(res && res.rows.length > 0){        
         for (let row of res.rows){
             let case_id = row.id
-            // let case_text = row.case_text
+            /*
             let caseData = {
                 "id" : row.id,
                 "case_name" : row.case_name,
@@ -121,6 +121,8 @@ let paint = () =>{
                 "parsers_version": row.parsers_version,
                 "case_text": row.case_text
             }
+            */
+            let caseData = {...row}
 
             const data = JSON.stringify(caseData)
             fs.writeFileSync(`${caseTextsDir}/${case_id}.json`, data)            
